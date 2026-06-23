@@ -1,0 +1,5 @@
+psycopg2-binary>=2.9
+requests>=2.31
+beautifulsoup4>=4.12
+tqdm>=4.66
+datasets>=2.14
