@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: kitchen_portfolio
+      POSTGRES_USER: recipe_user
+      POSTGRES_PASSWORD: recipe_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./schema/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U recipe_user -d kitchen_portfolio"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: ./api
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: postgresql://recipe_user:recipe_pass@db:5432/kitchen_portfolio
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
