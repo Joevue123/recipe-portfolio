@@ -5,6 +5,8 @@ services:
       POSTGRES_DB: kitchen_portfolio
       POSTGRES_USER: recipe_user
       POSTGRES_PASSWORD: recipe_pass
+    ports:
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./schema/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
