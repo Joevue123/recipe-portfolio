@@ -13,7 +13,6 @@ import hashlib
 import json
 import os
 import sys
-from datetime import datetime, timezone
 
 import psycopg2
 import psycopg2.extras
@@ -112,7 +111,7 @@ def insert_batch(cur, rows: list[dict], source: str) -> tuple[int, int]:
                     (row["content_hash"], ing_text.strip()[:255], idx),
                 )
             inserted += 1
-        except Exception as exc:
+        except Exception:
             cur.connection.rollback()
             failed += 1
     return inserted, failed
